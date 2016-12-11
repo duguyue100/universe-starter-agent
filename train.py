@@ -23,7 +23,7 @@ def new_tmux_cmd(name, cmd):
 def create_tmux_commands(session, num_workers, remotes, env_id, logdir):
     # for launching the TF workers and for launching tensorboard
     base_cmd = [
-        'CUDA_VISIBLE_DEVICES=', sys.executable, 'worker.py',
+        sys.executable, 'worker.py',
         '--log-dir', logdir, '--env-id', env_id,
         '--num-workers', str(num_workers)]
 
@@ -46,7 +46,7 @@ def create_tmux_commands(session, num_workers, remotes, env_id, logdir):
     cmds = [
         "mkdir -p {}".format(logdir),
         "tmux kill-session",
-        "tmux new-session -s {} -n {} -d".format(session, windows[0]),
+        "tmux new -s {} -n {} -d".format(session, windows[0]),
     ]
     for w in windows[1:]:
         cmds += ["tmux new-window -t {} -n {}".format(session, w)]
